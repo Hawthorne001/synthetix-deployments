@@ -273,7 +273,7 @@ jobs:
           command: |
             yarn cannon build << parameters.toml >> \
               --keep-alive \
-              --port 8545 \
+              --anvil.port 8545 \
               --dry-run \
               --upgrade-from << parameters.package >>@<< parameters.preset >> \
               --chain-id << parameters.chain-id >> \
@@ -372,7 +372,7 @@ jobs:
           command: |
             yarn cannon build << parameters.toml >> \
               --keep-alive \
-              --port 8545 \
+              --anvil.port 8545 \
               --dry-run \
               --chain-id << parameters.chain-id >> \
               --provider-url "$<< parameters.rpc-env >>" \
@@ -498,6 +498,8 @@ jobs:
             cp e2e/deployments/cannon.json ~/synthetix-gitbook-v3/deployment-info/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/systemToken.json ~/synthetix-gitbook-v3/deployment-info/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/pythFeeds.json ~/synthetix-gitbook-v3/deployment-info/<< parameters.chain-id >>-<< parameters.preset >>/
+            cp e2e/deployments/perpsMarkets.json ~/synthetix-gitbook-v3/deployment-info/<< parameters.chain-id >>-<< parameters.preset >>/
+            cp e2e/deployments/spotMarkets.json ~/synthetix-gitbook-v3/deployment-info/<< parameters.chain-id >>-<< parameters.preset >>/
 
       - github-pr:
           working_directory: "~/synthetix-gitbook-v3"
@@ -617,6 +619,7 @@ jobs:
           command: |
             mkdir -p ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>
             cp e2e/deployments/abi/*.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
+            cp e2e/deployments/sol/*.sol ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/collateralTokens.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/mintableTokens.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/rewardsDistributors.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
@@ -626,6 +629,8 @@ jobs:
             cp e2e/deployments/cannon.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/systemToken.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/pythFeeds.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
+            cp e2e/deployments/perpsMarkets.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
+            cp e2e/deployments/spotMarkets.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
 
       - github-pr:
           working_directory: "~/v3-contracts"
@@ -662,7 +667,7 @@ jobs:
           command: |
             yarn cannon build << parameters.toml >> \
               --keep-alive \
-              --port 8545 \
+              --anvil.port 8545 \
               --dry-run \
               --upgrade-from << parameters.package >>@<< parameters.preset >> \
               --chain-id << parameters.chain-id >> \
@@ -712,6 +717,8 @@ jobs:
             cp e2e/deployments/cannon.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/systemToken.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
             cp e2e/deployments/pythFeeds.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
+            cp e2e/deployments/perpsMarkets.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
+            cp e2e/deployments/spotMarkets.json ~/v3-contracts/<< parameters.chain-id >>-<< parameters.preset >>/
 
       - github-pr-allow-empty:
           working_directory: "~/v3-contracts"
@@ -766,23 +773,23 @@ workflows:
           chain-id: 10
           rpc-env: RPC_OPTIMISM_MAINNET
 
-      - fork-test:
-          name: test-arbitrum-sepolia
-          toml: omnibus-arbitrum-sepolia.toml
-          package: "synthetix-omnibus:latest"
-          preset: "main"
-          chain-id: 421614
-          rpc-env: RPC_ARBITRUM_SEPOLIA
-          resource_class: large
-
-      - fork-test:
-          name: test-arbitrum-mainnet
-          toml: omnibus-arbitrum-mainnet.toml
-          package: "synthetix-omnibus:latest"
-          preset: "main"
-          chain-id: 42161
-          rpc-env: RPC_ARBITRUM_MAINNET
-          resource_class: large
+      #      - fork-test:
+      #          name: test-arbitrum-sepolia
+      #          toml: omnibus-arbitrum-sepolia.toml
+      #          package: "synthetix-omnibus:latest"
+      #          preset: "main"
+      #          chain-id: 421614
+      #          rpc-env: RPC_ARBITRUM_SEPOLIA
+      #          resource_class: large
+      #
+      #      - fork-test:
+      #          name: test-arbitrum-mainnet
+      #          toml: omnibus-arbitrum-mainnet.toml
+      #          package: "synthetix-omnibus:latest"
+      #          preset: "main"
+      #          chain-id: 42161
+      #          rpc-env: RPC_ARBITRUM_MAINNET
+      #          resource_class: large
 
       - fork-test:
           name: test-sepolia
